@@ -8,7 +8,25 @@
 </head>
 <body>
     <div id="app">
-        <!-- ...existing code... -->
+        <header>
+            <h1>AgriTrade Marketplace</h1>
+            <nav>
+                <a href="#" onclick="showPage('home')">Home</a>
+                <a href="#" onclick="showPage('login')">Login</a>
+                <a href="#" onclick="showPage('register')">Register</a>
+                <a href="#" onclick="showPage('profile')">Profile</a>
+                <a href="#" onclick="showPage('cart')">Cart</a>
+                <a href="#" onclick="showPage('checkout')">Checkout</a>
+                <a href="#" onclick="showPage('admin')">Admin Dashboard</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </nav>
+        </header>
+        <main id="content">
+            <!-- Pages will be loaded here -->
+        </main>
+        <footer>
+            <p>&copy; 2023 AgriTrade UG. All rights reserved.</p>
+        </footer>
     </div>
     <script src="app.js"></script>
 </body>
