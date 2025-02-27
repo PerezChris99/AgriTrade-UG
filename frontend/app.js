@@ -8,6 +8,7 @@ function showPage(page) {
         .then(response => response.text())
         .then(html => {
             content.innerHTML = html;
+            // Call specific functions after the page is loaded
             if (page === 'home') {
                 fetchProducts();
             } else if (page === 'profile') {
@@ -15,16 +16,22 @@ function showPage(page) {
             } else if (page === 'admin') {
                 fetchAdminDashboard();
             } else if (page === 'cart') {
-                // You might want to fetch cart items here
+                // fetchCartItems(); // Implement this function
             } else if (page === 'checkout') {
-                // You might want to prepare checkout form here
+                // prepareCheckout(); // Implement this function
             }
         })
         .then(() => { // Execute scripts after content is loaded
             if (page === 'login') {
-                document.querySelector('form').addEventListener('submit', login);
+                const loginForm = document.getElementById('loginForm');
+                if (loginForm) {
+                    loginForm.addEventListener('submit', login);
+                }
             } else if (page === 'register') {
-                document.querySelector('form').addEventListener('submit', register);
+                const registerForm = document.getElementById('registerForm');
+                 if (registerForm) {
+                    registerForm.addEventListener('submit', register);
+                }
             }
         });
 }
@@ -34,17 +41,19 @@ function fetchProducts() {
         .then(response => response.json())
         .then(data => {
             const productsContainer = document.getElementById('products');
-            productsContainer.innerHTML = ''; // Clear existing products
-            data.products.forEach(product => {
-                productsContainer.innerHTML += `
-                    <div class="product">
-                        <h3>${product.name}</h3>
-                        <p>${product.description}</p>
-                        <p>Price: ${product.price}</p>
-                        <button onclick="addToCart(${product.id})">Add to Cart</button>
-                    </div>
-                `;
-            });
+            if (productsContainer) {
+                productsContainer.innerHTML = ''; // Clear existing products
+                data.products.forEach(product => {
+                    productsContainer.innerHTML += `
+                        <div class="product">
+                            <h3>${product.name}</h3>
+                            <p>${product.description}</p>
+                            <p>Price: ${product.price}</p>
+                            <button onclick="addToCart(${product.id})">Add to Cart</button>
+                        </div>
+                    `;
+                });
+            }
         });
 }
 
@@ -98,7 +107,9 @@ function fetchUserProfile() {
     .then(response => response.json())
     .then(data => {
         const profileContainer = document.getElementById('profile');
-        profileContainer.innerHTML = `<h2>${data.user.username}'s Profile</h2>`;
+         if (profileContainer) {
+            profileContainer.innerHTML = `<h2>${data.user.username}'s Profile</h2>`;
+        }
     });
 }
 
@@ -111,19 +122,21 @@ function fetchAdminDashboard() {
     .then(response => response.json())
     .then(data => {
         const adminContainer = document.getElementById('admin-dashboard');
-        adminContainer.innerHTML = '<h2>Admin Dashboard</h2>';
-        adminContainer.innerHTML += '<h3>Users</h3>';
-        data.users.forEach(user => {
-            adminContainer.innerHTML += `<div>${user.username} - ${user.email}</div>`;
-        });
-        adminContainer.innerHTML += '<h3>Products</h3>';
-        data.products.forEach(product => {
-            adminContainer.innerHTML += `<div>${product.name} - ${product.price}</div>`;
-        });
-        adminContainer.innerHTML += '<h3>Orders</h3>';
-        data.orders.forEach(order => {
-            adminContainer.innerHTML += `<div>Order ID: ${order.id} - Total Price: ${order.total_price}</div>`;
-        });
+        if (adminContainer) {
+            adminContainer.innerHTML = '<h2>Admin Dashboard</h2>';
+            adminContainer.innerHTML += '<h3>Users</h3>';
+            data.users.forEach(user => {
+                adminContainer.innerHTML += `<div>${user.username} - ${user.email}</div>`;
+            });
+            adminContainer.innerHTML += '<h3>Products</3>';
+            data.products.forEach(product => {
+                adminContainer.innerHTML += `<div>${product.name} - ${product.price}</div>`;
+            });
+            adminContainer.innerHTML += '<h3>Orders</h3>';
+            data.orders.forEach(order => {
+                adminContainer.innerHTML += `<div>Order ID: ${order.id} - Total Price: ${order.total_price}</div>`;
+            });
+        }
     });
 }
 
